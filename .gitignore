@@ -1,4 +1,8 @@
 conf/*
-data/*
+log/*
+files/*
 node_modules/*
 package-lock.json
+compiled/*
+log/*
+files/*
