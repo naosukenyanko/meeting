@@ -15,8 +15,11 @@ async function getConf(){
 			name: "test-community",
 			port: "80"
 		}
+		await fs.mkdir( path.dirname(confPath), {recursive: true} )
 		await fs.writeFile(confPath, JSON.stringify(conf, null, '\t'))
+		
 	}
+	return conf
 }
 
 async function run(){
