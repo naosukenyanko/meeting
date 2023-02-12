@@ -16,10 +16,11 @@ async function getConf(){
 			port: "80"
 		}
 		await fs.writeFile(confPath, JSON.stringify(conf, null, '\t'))
+	}
 }
 
 async function run(){
-	
+
 	const conf = await makeConf()
 
 	http.createServer( (req, res)=>{
