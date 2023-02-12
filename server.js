@@ -21,7 +21,7 @@ async function getConf(){
 
 async function run(){
 
-	const conf = await makeConf()
+	const conf = await getConf()
 
 	http.createServer( (req, res)=>{
 		res.writeHead(200, {'Content-Type': 'text/html'})
