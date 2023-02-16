@@ -38,13 +38,15 @@ export default class App extends React.Component {
 		for(let i=0; i<files.length ; i++){
 			const file = files[0]
 			console.log("upload", file)
+			const ops = {albumid: 1, name: "guest"}
 			const progress = (evt)=>{
 				console.log("proc", evt)
+				
 				this.setState({
 					uploading: {file, progress: evt}
 				})
 			}
-			const proc = await api.upload( file, progress )
+			const proc = await api.upload( file, ops, progress )
 		}
 		this.setState({uploading: null})
 	}

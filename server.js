@@ -4,16 +4,25 @@ const http = require('http')
 const fs = require('fs').promises
 const path = require('path')
 const express = require('express')
+const multer = require('multer')
 
+function makeHash(length = 64){
+	const alphabet = "abcdefghijklmnopqrstuvwxyz0123456789".split("")
+	let result = ""
+	for(let i=0 ; i<length ; i++){
+		const index = Math.floor( Math.random() * alphabet.length )
+		result += alphabet[index];
+	}
 
-
-
+	return result
+}
 
 async function makeDirs(){
 	const list = [
 		"./log",
 		"./files",
 		"./conf",
+		"./tmp",
 		"./compiled"
 	]
 	for(let name of list){
@@ -52,6 +61,11 @@ async function getHTML(src, conf){
 	return data
 }
 
+async function register(conf, filePath, req){
+	console.log("register", filePath, req.body)
+	return 1
+}
+
 async function run(){
 	await makeDirs()
 	const conf = await getConf()
@@ -61,7 +75,7 @@ async function run(){
 	const app = express()
 
 	app.use(express.json({extended: true, limit: limit}))
-	app.use(express.urlencoded({ extended: true, limit: limit }));
+	//app.use(express.urlencoded({ extended: true, limit: limit }));
 	
 	const api = async function(req){
 		const {command} = req.body
@@ -91,7 +105,15 @@ async function run(){
 				}
 			},
 			upload: async()=>{
-				console.log("upload", req.body)
+				console.log("upload", req.body, req.file)
+				const {file} = req;
+				const fileName = req.body
+				const hash = makeHash()
+				const ext = path.extname(file.originalname)
+				const dst = path.join("files", hash +  ext)
+				await fs.rename(file.path, dst)
+				await register(conf, dst, req)
+				
 				return {
 					id: 1,
 				}
@@ -110,7 +132,7 @@ async function run(){
 		res.end(body, 'utf-8')
 	})
 
-	app.post("/api", async(req, res)=>{
+	app.post("/api", multer({ dest: 'tmp/' }).single('file'), async(req, res)=>{
 		try{
 			const result = await api(req)
 			const data = JSON.stringify({status: "success", data: result})

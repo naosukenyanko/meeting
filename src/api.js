@@ -22,9 +22,13 @@ export default {
 		}
 	},
 
-	upload: async(file, progress)=>{
+	upload: async(file, ops = {}, progress)=>{
+		const data = Object.assign({}, ops, {
+			command: "upload",
+		})
+		
 		const result = await superagent.post(url)
-			  .field('command', 'upload')
+			  .field(data)
 			  .attach('file',file)
 			  .on("progress", progress)
 
