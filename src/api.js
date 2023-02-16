@@ -9,7 +9,7 @@ export default {
 			command: command,
 		})
 		const result = await superagent.post(url)
-			  .send(body)
+			  .send(data)
 
 		console.log("result", result)
 		const res = JSON.parse( result.text )

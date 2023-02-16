@@ -16,7 +16,7 @@ export default class App extends React.Component {
 			list: null,
 			listStyle: "large",
 			config: {
-				title: "HIGASHI COMMUNITY"
+				name: "HIGASHI COMMUNITY"
 			}
 		}
 	}
@@ -26,8 +26,9 @@ export default class App extends React.Component {
 	}
 
 	async load(){
-		const result =  await api.post("getList", {})
-		this.setState({list: result})
+		const config = await api.post("getConf", {})
+		const list = await api.post("getList", {})
+		this.setState({list, config})
 	}
 	
 	render() {

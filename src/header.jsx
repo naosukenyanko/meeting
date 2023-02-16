@@ -5,7 +5,7 @@ export default function Header(props){
 	const {config, user} = props;
 	return (
 		<div className="header">
-			<div className="title">{config.title}</div>
+			<div className="title">{config.name}</div>
 			<div className="size_buttons">
 				<button>large</button>
 				<button>medium</button>
@@ -16,7 +16,9 @@ export default function Header(props){
 				<button title="アルバム切り替え">HOME</button>
 			</div>
 			<div className="upload">
-				<button title="upload">+</button>
+				<button title="upload">
+					<img src="./images/upload.png"/>
+				</button>
 			</div>
 		</div>
 		

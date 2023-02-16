@@ -5,6 +5,10 @@ const fs = require('fs').promises
 const path = require('path')
 const express = require('express')
 
+
+
+
+
 async function makeDirs(){
 	const list = [
 		"./log",
@@ -56,22 +60,39 @@ async function run(){
 
 	const app = express()
 
+	app.use(express.json())
+	
 	const api = async function(req){
-		console.log("api", req.query, req.params)
-		return [
-			{
-				id: 1,
-				album_id: 1,
-				fileName: "foo.jpg",
-				filePath: "foo.jpg",
+		const {command} = req.body
+		if( !command ){
+			throw new Error("command not found")
+		}
+		const table = {
+			getList: async()=>{
+				return [
+					{
+						id: 1,
+						album_id: 1,
+						fileName: "foo.jpg",
+						filePath: "foo.jpg",
+					},
+					{
+						id: 2,
+						album_id: 1,
+						fileName: "bar.jpg",
+						filePath: "bar.jpg",
+					}
+				]
 			},
-			{
-				id: 2,
-				album_id: 1,
-				fileName: "bar.jpg",
-				filePath: "bar.jpg",
+			getConf: async ()=>{
+				return {
+					name: conf.name,
+				}
 			}
-		]
+		}
+		const func = table[command]
+		if( !func ) throw new Error("command not found")
+		return await func()
 	}
 	
 	
