@@ -21,7 +21,20 @@ module.exports = {
 				},
 				
 			},
+			{
+                test: /\.(css|sass|scss)/,
+                use: [
+                    {
+                        loader: 'css-loader'
+                    },
+                    {
+                        loader: 'sass-loader'
+                    }
+                ]
+            }
 		],
 	},
-
+	resolve: {
+		extensions: ['', '.js', '.jsx'],
+	}
 };
