@@ -11,8 +11,9 @@ export default function Header(props){
 				<button>medium</button>
 				<button>small</button>
 			</div>
-			<div>
-				<input className="search_text" type="text" placeholder="(検索)"/>
+
+			<div className="album">
+				<button title="アルバム切り替え">HOME</button>
 			</div>
 			<div className="upload">
 				<button title="upload">+</button>

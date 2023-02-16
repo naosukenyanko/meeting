@@ -4,14 +4,19 @@ export default {
 	post: async(command, body = {})=>{
 		console.log("post", command, body)
 		
-		const url = "/api"
+		const url = "./api"
 		const data = Object.assign({}, body, {
 			command: command,
 		})
-		const result = superagent.post(url)
+		const result = await superagent.post(url)
 			  .send(body)
 
 		console.log("result", result)
-		return JSON.parse( result.text )
+		const res = JSON.parse( result.text )
+		if( res.status === "success" ){
+			return res.data
+		}else{
+			console.error( res.text )
+		}
 	}
 }

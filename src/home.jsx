@@ -6,6 +6,8 @@ import Header from './header'
 console.log("app")
 import "./theme.scss"
 
+import { createRoot } from 'react-dom/client';
+
 export default class App extends React.Component {
 	constructor(props){
 		super(props)
@@ -24,7 +26,8 @@ export default class App extends React.Component {
 	}
 
 	async load(){
-		const result = api.post("getList", {})
+		const result =  await api.post("getList", {})
+		this.setState({list: result})
 	}
 	
 	render() {
@@ -40,4 +43,6 @@ export default class App extends React.Component {
 	}
 }
 
-ReactDOM.render(<App />, document.getElementById("app-container"));
+const container =  document.getElementById("app-container")
+const root = createRoot(container); 
+root.render(<App />)

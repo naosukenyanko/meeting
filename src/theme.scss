@@ -32,6 +32,19 @@ body {
 	    max-width: 400px;
 	}
 
+	.album {
+	    margin: 18px;
+	    text-align: center;
+	    button{
+		width: 100%;
+		max-width: 400px;
+		height: 64px;
+		background-color: #4b0;
+		color: #ffffff;
+		font-size: 24pt;
+	    }
+	}
+
 	.upload {
 	    margin: 18px;
 	    text-align: center;
@@ -41,8 +54,25 @@ body {
 		height: 64px;
 		background-color: #90d0ff;
 		color: #ffffff;
+		font-size: 24pt;
 	    }
 	    
 	}
+    }
+
+    .file_list {
+	
+    }
+
+    .loading_frame{
+	text-align: center;
+	#loading {
+	    animation:3s linear infinite rotation1;
+	    display: inline;
+	}
+    }
+    @keyframes rotation1{
+	0%{ transform:rotate(0);}
+	100%{ transform:rotate(360deg); }
     }
 }
