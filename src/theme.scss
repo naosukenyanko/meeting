@@ -1,11 +1,48 @@
 
-.main_frame{
+body {
     font-family:"BIZ UDGothic";
-    .hader{
+}
+
+.main_frame{
+    text-align: center;
+    
+    .header{
 	text-align: center;
 	padding: 24px;
+	
+	
 	.title{
-	    font-size: 18pt;
+	    font-size: 24pt;
+	    text-align: center;
+	    margin: 18px;
+	}
+
+	.size_buttons {
+	    margin: 18px;
+	    text-align: center;
+	    button {
+		width: 33%;
+		max-width: 120px;
+	    }
+	}
+
+	.search_text {
+	    margin: 18px;
+	    width: 100%;
+	    max-width: 400px;
+	}
+
+	.upload {
+	    margin: 18px;
+	    text-align: center;
+	    button {
+		width: 100%;
+		max-width: 400px;
+		height: 64px;
+		background-color: #90d0ff;
+		color: #ffffff;
+	    }
+	    
 	}
     }
 }
