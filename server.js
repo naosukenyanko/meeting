@@ -56,11 +56,12 @@ async function run(){
 	await makeDirs()
 	const conf = await getConf()
 
-	const {port} = conf
+	const {port, limit = '1000mb'} = conf
 
 	const app = express()
 
-	app.use(express.json())
+	app.use(express.json({extended: true, limit: limit}))
+	app.use(express.urlencoded({ extended: true, limit: limit }));
 	
 	const api = async function(req){
 		const {command} = req.body
@@ -87,6 +88,12 @@ async function run(){
 			getConf: async ()=>{
 				return {
 					name: conf.name,
+				}
+			},
+			upload: async()=>{
+				console.log("upload", req.body)
+				return {
+					id: 1,
 				}
 			}
 		}

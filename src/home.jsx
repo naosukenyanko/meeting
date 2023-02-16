@@ -3,7 +3,8 @@ import ReactDOM from "react-dom";
 import api from './api'
 import FileList from './filelist'
 import Header from './header'
-console.log("app")
+import Uploading from './uploading'
+
 import "./theme.scss"
 
 import { createRoot } from 'react-dom/client';
@@ -17,7 +18,8 @@ export default class App extends React.Component {
 			listStyle: "large",
 			config: {
 				name: "HIGASHI COMMUNITY"
-			}
+			},
+			uploading: null,
 		}
 	}
 
@@ -30,15 +32,34 @@ export default class App extends React.Component {
 		const list = await api.post("getList", {})
 		this.setState({list, config})
 	}
+
+	async upload(files){
+		console.log("upload", files)
+		for(let i=0; i<files.length ; i++){
+			const file = files[0]
+			console.log("upload", file)
+			const progress = (evt)=>{
+				console.log("proc", evt)
+				this.setState({
+					uploading: {file, progress: evt}
+				})
+			}
+			const proc = await api.upload( file, progress )
+		}
+		this.setState({uploading: null})
+	}
 	
 	render() {
-		const {list, listStyle, config, user} = this.state
+		const {list, listStyle, config, user, uploading} = this.state
 		return (
 			<div className="main_frame">
-				<Header user={user} config={config}/>
+				<Header user={user} config={config}
+						onUpload={this.upload.bind(this)}/>
 				<div className="center_frame">
 					<FileList list={list} listStyle={listStyle}/>
 				</div>
+
+				<Uploading data={uploading}/>
 			</div>
 		)
 	}
