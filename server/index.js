@@ -33,10 +33,11 @@ async function makeDirs(){
 async function getConf(){
 	const confPath = "./conf/server.json"
 	let conf;
+
 	try{
-		conf = require(confPath)
-		return conf
+		const stat = await fs.stat(confPath)
 	}catch(e){
+		console.log("make", confPath)
 		conf = {
 			name: "test-community",
 			port: "80",
@@ -46,6 +47,8 @@ async function getConf(){
 		}
 		await fs.writeFile(confPath, JSON.stringify(conf, null, '\t'))
 	}
+
+	conf = require( path.join("../" , confPath) )
 	return conf
 }
 
@@ -110,7 +113,7 @@ async function run(){
 				const fileName = req.body
 				const hash = makeHash()
 				const ext = path.extname(file.originalname)
-				const dst = path.join("files", hash +  ext)
+				const dst = path.join("./files", hash +  ext)
 				await fs.rename(file.path, dst)
 				await register(conf, dst, req)
 				
