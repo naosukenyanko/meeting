@@ -49,16 +49,29 @@ export default class App extends React.Component {
 			const proc = await api.upload( file, ops, progress )
 		}
 		this.setState({uploading: null})
+		await this.load()
+	}
+
+	async onDelete(file){
+		console.log("delete", file)
+		const result = await api.post("deleteFile", {id: file.id})
+		await this.load();
 	}
 	
-	render() {
+	render(){
+		const onChange = (obj)=>{
+			this.setState(obj)
+		}
 		const {list, listStyle, config, user, uploading} = this.state
 		return (
 			<div className="main_frame">
 				<Header user={user} config={config}
+						listStyle={listStyle}
+						onChange={onChange}
 						onUpload={this.upload.bind(this)}/>
 				<div className="center_frame">
-					<FileList list={list} listStyle={listStyle}/>
+					<FileList list={list} listStyle={listStyle}
+							  onDelete={this.onDelete.bind(this)}/>
 				</div>
 
 				<Uploading data={uploading}/>

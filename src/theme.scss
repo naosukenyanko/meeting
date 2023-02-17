@@ -5,24 +5,118 @@ body {
 
 .main_frame{
     text-align: center;
+
+    .dialog {
+	background-color: #ffffff;
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	overflow: auto;
+	color: #101010;
+
+	
+	.close {
+	    position: absolute;
+	    right: 0;
+	    top: 0;
+	    width: 48px;
+	    height: 32px;
+	}
+
+	
+
+    }
+    .filedialog{
+	text-align: center;
+	padding-top : 12px;
+	padding-bottom: 24px;
+	.image_frame{
+	    display: inline-block;
+	    text-align: center;
+	    width: 80%;
+	    height: auto;
+	    padding: 8px;
+	    
+	    img{
+		width: 100%;
+		height: auto;
+		
+	    }
+	}
+	table {
+	    width: 90%;
+	    margin-left: 5%;
+	    border-collapse: collapse;
+	}
+
+	table tr{
+	    border-bottom: solid 2px white;
+	}
+
+	table tr:last-child{
+	    border-bottom: none;
+	}
+
+	table th{
+	    position: relative;
+	    text-align: left;
+	    width: 30%;
+	    background-color: #52c2d0;
+	    color: white;
+	    text-align: center;
+	    padding: 10px 0;
+	}
+
+	table td{
+	    text-align: left;
+	    width: 70%;
+	    text-align: center;
+	    background-color: #eee;
+	    padding: 10px 0;
+	}
+
+	.buttons {
+	    button{
+		background-color: #c0c0c0;
+		width: 40%;
+		margin: 12px 5%;
+		height: 48px;
+	    }
+	}
+    }
     
     .header{
+	background-color: #a0a0a0;
+	opacity: 0.95;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	
 	text-align: center;
 	padding: 24px;
 	
 	
 	.title{
-	    font-size: 24pt;
+	    font-size: 16pt;
 	    text-align: center;
-	    margin: 18px;
+	    margin: 4px;
 	}
 
 	.size_buttons {
-	    margin: 18px;
+	    margin: 4px;
 	    text-align: center;
 	    button {
 		width: 33%;
 		max-width: 120px;
+		background-color: #303030;
+		color: #ffffff;
+	    }
+	    .selected{
+		background-color: #f0f0f0;
+		color: #202020;
 	    }
 	}
 
@@ -33,22 +127,29 @@ body {
 	}
 
 	.album {
-	    margin: 18px;
+	    margin: 4px;
 	    text-align: center;
 	    button{
 		width: 100%;
 		max-width: 400px;
-		height: 64px;
+		height: 32px;
 		background-color: #4b0;
 		color: #ffffff;
-		font-size: 24pt;
+		font-size: 16pt;
 	    }
 	}
 
 	.upload {
 	    margin: 18px;
 	    text-align: center;
+	    position : fixed;
+	    right: 0;
+	    bottom :0;
+	    width: 64px;
+	    height: 64px;
+	    
 	    button {
+		vertical-align: middle;
 		text-align: center;
 		width: 100%;
 		max-width: 400px;
@@ -56,7 +157,13 @@ body {
 		background-color: #90d0ff;
 		color: #ffffff;
 		font-size: 24pt;
+
+		span {
+		    vertical-align: middle;
+		    margin: 8px;
+		}
 		img {
+		    vertical-align: middle;
 		    display: inline;
 		    height: 64px;
 		}
@@ -66,27 +173,21 @@ body {
     }
 
     .file_list {
-	display: flex;
+	margin-top: 400px;
+	margin-bottom: 40px;
+	
 	.file {
 	    display: inline-block;
-	    width: 50%;
-	    height: 200px;
-	    padding: 24px;
+	    overflow: hidden;
 	    
-	    img {
-		aspect-ratio: 16 / 9;
-		width: 100%;
-		height: 100%;
+	    .icon{
 		
 	    }
-	}
-
-	.file.medium {
-	    width:25%;
-	}
-
-	.file.small{
-	    width: 10%;
+	    
+	    img {
+		/*width: auto;*/
+		/*height: 100%;*/
+	    }
 	}
     }
 

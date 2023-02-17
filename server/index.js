@@ -5,17 +5,7 @@ const fs = require('fs').promises
 const path = require('path')
 const express = require('express')
 const multer = require('multer')
-
-function makeHash(length = 64){
-	const alphabet = "abcdefghijklmnopqrstuvwxyz0123456789".split("")
-	let result = ""
-	for(let i=0 ; i<length ; i++){
-		const index = Math.floor( Math.random() * alphabet.length )
-		result += alphabet[index];
-	}
-
-	return result
-}
+const api = require('./api')
 
 async function makeDirs(){
 	const list = [
@@ -23,7 +13,8 @@ async function makeDirs(){
 		"./files",
 		"./conf",
 		"./tmp",
-		"./compiled"
+		"./compiled",
+		"./thumbnail",
 	]
 	for(let name of list){
 		await fs.mkdir( name, {recursive: true} )
@@ -64,10 +55,7 @@ async function getHTML(src, conf){
 	return data
 }
 
-async function register(conf, filePath, req){
-	console.log("register", filePath, req.body)
-	return 1
-}
+
 
 async function run(){
 	await makeDirs()
@@ -80,53 +68,7 @@ async function run(){
 	app.use(express.json({extended: true, limit: limit}))
 	//app.use(express.urlencoded({ extended: true, limit: limit }));
 	
-	const api = async function(req){
-		const {command} = req.body
-		if( !command ){
-			throw new Error("command not found")
-		}
-		const table = {
-			getList: async()=>{
-				return [
-					{
-						id: 1,
-						album_id: 1,
-						fileName: "foo.jpg",
-						filePath: "foo.jpg",
-					},
-					{
-						id: 2,
-						album_id: 1,
-						fileName: "bar.jpg",
-						filePath: "bar.jpg",
-					}
-				]
-			},
-			getConf: async ()=>{
-				return {
-					name: conf.name,
-				}
-			},
-			upload: async()=>{
-				console.log("upload", req.body, req.file)
-				const {file} = req;
-				const fileName = req.body
-				const hash = makeHash()
-				const ext = path.extname(file.originalname)
-				const dst = path.join("./files", hash +  ext)
-				await fs.rename(file.path, dst)
-				await register(conf, dst, req)
-				
-				return {
-					id: 1,
-				}
-			}
-		}
-		const func = table[command]
-		if( !func ) throw new Error("command not found")
-		return await func()
-	}
-	
+
 	
 	app.get(["/", "/index.html"], async(req, res)=>{
 		console.log("index.html")
@@ -137,7 +79,7 @@ async function run(){
 
 	app.post("/api", multer({ dest: 'tmp/' }).single('file'), async(req, res)=>{
 		try{
-			const result = await api(req)
+			const result = await api(conf, req)
 			const data = JSON.stringify({status: "success", data: result})
 			res.writeHead(200, {'Content-Type': 'text/html'})
 			res.end(data, 'utf-8')
@@ -151,6 +93,7 @@ async function run(){
 	
 	app.use("/scripts/compiled", express.static('compiled'));
 	app.use("/files/", express.static('files'));
+	app.use("/thumbnail/", express.static('thumbnail'));
 	app.use(express.static('htdocs'));
 
 	app.listen(port, ()=>{

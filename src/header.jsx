@@ -12,6 +12,26 @@ const showOpenFileDialog = () => {
     });
 };
 
+function SizeButtons(props){
+	const {listStyle} = props;
+	const list = ["large", "medium", "small"].map( (item, i)=>{
+		const onClick = ()=>{
+			props.onChange({listStyle: item})
+		}
+		const className = item === listStyle ? "selected": "";
+		return (
+			<button onClick={onClick} key={item} className={className}>
+				{item}
+			</button>
+		)
+	})
+	return (
+		<div className="size_buttons">
+			{list}
+		</div>
+	)
+}
+
 export default function Header(props){
 	const {config, user} = props;
 
@@ -24,11 +44,7 @@ export default function Header(props){
 	return (
 		<div className="header">
 			<div className="title">{config.name}</div>
-			<div className="size_buttons">
-				<button>large</button>
-				<button>medium</button>
-				<button>small</button>
-			</div>
+			<SizeButtons {...props}/>
 
 			<div className="album">
 				<button title="アルバム切り替え">HOME</button>
@@ -36,6 +52,7 @@ export default function Header(props){
 			<div className="upload">
 				<button title="upload" onClick={upload}>
 					<img src="./images/upload.png"/>
+					
 				</button>
 			</div>
 		</div>
