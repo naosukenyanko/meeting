@@ -52,11 +52,12 @@ export default class App extends React.Component {
 		const {album, user} = this.state;
 		console.log("upload", files)
 		for(let i=0; i<files.length ; i++){
-			const file = files[0]
+			const file = files[i]
 			console.log("upload", file)
 			const ops = {
 				album: album,
 				userName: user || "guest",
+				name: encodeURI(file.name)
 			}
 			const progress = (evt)=>{
 				console.log("proc", evt)

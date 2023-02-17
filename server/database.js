@@ -55,7 +55,8 @@ module.exports = function(conf){
 				  + "RETURNING id"
 			const args = [
 				album,
-				file.originalname,
+				//file.originalname,
+				decodeURI(body.name),
 				filePath,
 				thumbnail,
 				date(1),
@@ -69,7 +70,7 @@ module.exports = function(conf){
 			
 			const result = await exec(query, args)
 
-			console.log(result)
+			//console.log(result)
 			
 			return result.rows
 		},

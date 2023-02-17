@@ -3,6 +3,9 @@ const path = require('path')
 const fs = require('fs').promises
 const DATABASE = require('./database')
 
+const makeThumbnail = require('./thumbnail')
+
+
 function makeHash(length = 64){
 	const alphabet = "abcdefghijklmnopqrstuvwxyz0123456789".split("")
 	let result = ""
@@ -49,12 +52,13 @@ module.exports = async function api(conf, req){
 		upload: async()=>{
 			console.log("upload", req.body, req.file)
 			const {file} = req;
-			const fileName = req.body
+			const {name} = req.body
+			console.log(name, decodeURI(name) )
 			const hash = makeHash()
-			const ext = path.extname(file.originalname)
+			const ext = path.extname(file.originalname).toLowerCase()
 			const dst = path.join("./files", hash +  ext)
-			const thumbnail = path.join("./thumbnail", hash +  ext)
-			await fs.copyFile(file.path, thumbnail)
+			const thumbnail = await makeThumbnail(file, hash)
+			
 			await fs.rename(file.path, dst)
 			
 						

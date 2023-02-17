@@ -10,6 +10,32 @@ function extname(val){
 	return ""
 }
 
+function Content(props){
+	const {data} = props
+	const {fileName, filePath, thumbnail} = data
+	const ext = extname(fileName).toLowerCase()
+	console.log(ext)
+	
+	const images = ["gif", "png", "jpg", "jpeg", "ico"]
+	const movies = ["mp4", "mov"]
+
+	if( images.includes( ext )){
+		console.log("image", ext)
+		return (
+			<img src={filePath}/>
+		)
+	}
+	if( movies.includes(ext) ){
+		console.log("moviex", ext)
+		return (
+			<video controls src={filePath}></video>
+		)
+	}
+	return (
+		<img src="./images/file.png"/>
+	)
+}
+
 function Album(props){
 	const {data, list} = props;
 	const res = new Set()
@@ -20,7 +46,7 @@ function Album(props){
 	}
 	const keys = res.keys()
 
-	console.log("keys", keys)
+	//console.log("keys", keys)
 
 	const albumList = []
 	for(let key of keys){
@@ -48,17 +74,10 @@ export default function FileDialog(props){
 		return null
 	}
 
-	console.log("open")
-
+	//console.log("open")
+	
 	const {fileName, filePath, thumbnail} = data
-	const ext = extname(fileName).toLowerCase()
-	//console.log(ext)
-	const images = ["gif", "png", "jpg", "jpeg", "ico"]
 
-	let src = "./images/file.png"
-	if( images.includes(ext) ){
-		src = thumbnail
-	}
 
 	const onClick = (evt)=>{
 		evt.stopPropagation()
@@ -69,7 +88,7 @@ export default function FileDialog(props){
 	const onDownload = async()=>{
 		let element = document.createElement('a');
 		element.href = data.filePath
-		element.download = data.fileName
+		element.download = decodeURI(data.fileName)
 		element.target = '_blank';
 		element.click();
 	}
@@ -95,8 +114,9 @@ export default function FileDialog(props){
 			<button className="close" onClick={onClick}>☓</button >
 			
 			<div className="image_frame">
-				<img src={src}/>
+				<Content {...props}/>
 			</div>
+			
 			<table>
 				<thead></thead>
 				<tbody>
@@ -124,7 +144,11 @@ export default function FileDialog(props){
 					</tr>
 					<tr>
 						<th>保存期限</th>
-						<td>{formatDate(data.expires, "YYYY/MM/DD")}</td>
+						<td>
+							<div>{formatDate(data.expires, "YYYY/MM/DD")}</div>
+							<button onClick={onLimit}>1年に変更</button>
+							<button onClick={onInfinite}>無期限に変更</button>
+						</td>
 					</tr>
 
 						
@@ -135,8 +159,7 @@ export default function FileDialog(props){
 			<div className="buttons">
 				<button onClick={onDownload}>ダウンロード</button>
 				<button onClick={onDelete}>削除</button>
-				<button onClick={onLimit}>保存期限を1年に変更</button>
-				<button onClick={onInfinite}>保存期限を無期限に変更</button>
+				
 			</div>
 		</div>
 	)

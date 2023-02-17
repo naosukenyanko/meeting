@@ -10,6 +10,40 @@ function extname(val){
 	return ""
 }
 
+function Expire(props){
+	const {data} = props
+	const {expires} = data
+
+	console.log("expires", expires)
+	if( !expires ){
+		return (
+			<img className="expires" src="./images/infinite.png" title="無期限の保存"/>
+		)
+	}
+	const d = new Date(expires)
+	const base = new Date(
+		d.getFullYear(), d.getMonth() , d.getDate() - 30 )
+	if( base < new Date() ){
+		return (
+			<img className="expires" src="./images/caution.png" title="もうすぐ保存期限です"/>
+		)
+	}else{
+		return null
+	}
+}
+
+function Movie(props){
+	const {data} = props
+	const {fileName, filePath, thumbnail} = data
+	const ext = extname(filePath)
+	const movie = ["mp4", "mov"]
+	if( movie.includes(ext) ){
+		return (<img className="movie" src="./images/play.png" title="動画ファイル"/>)
+		
+	}
+	return null
+}
+
 function File(props){
 	const {data, listStyle} = props;
 
@@ -39,12 +73,9 @@ function File(props){
 	]
 
 	const {fileName, filePath, thumbnail} = data
-	const ext = extname(fileName).toLowerCase()
-	//console.log(ext)
-	const images = ["gif", "png", "jpg", "jpeg", "ico"]
 
 	let src = "./images/file.png"
-	if( images.includes(ext) ){
+	if( thumbnail ){
 		src = thumbnail
 	}
 
@@ -62,6 +93,8 @@ function File(props){
 		<div className={className.join(" ")} style={style} onClick={openDialog}>
 			<div className="icon">
 				<img src={src} style={imgStyle}/>
+				<Expire {...props}/>
+				<Movie {...props}/>
 			</div>
 			<FileDialog {...props} dialog={dialog} close={close}/>
 		</div>

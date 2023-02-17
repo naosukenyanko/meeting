@@ -1,30 +1,43 @@
 
 body {
     font-family:"BIZ UDGothic";
+    background-color: #E1F5FE;
+    color: #202020;
 }
 
 button {
-    background-color: #f0f0f0;
-    color: #666;
+    background-color: #F9C671;;
+    color: #222;
 }
 input {
-    background-color: #f0f0f0;
-    color: #666;
-
+    background-color: #F9C671;;
+    color: #222;
+}
+select {
+    background-color: #F9C671;;
+    color: #222;
+}
+th{
+    background-color: #F9C671;
+    color: #202020;
+}
+td {
+    background-color: #E1F5FE;
+    color: #202020;
 }
 
 .main_frame{
     text-align: center;
 
     .dialog {
-	background-color: #ffffff;
+	background-color: #E1F5FE;
 	position: fixed;
 	left: 0;
 	right: 0;
 	top: 0;
 	bottom: 0;
 	overflow: auto;
-	color: #101010;
+	color: #202020;
 	z-index: 100;
 	
 	.close {
@@ -42,6 +55,14 @@ input {
 	text-align: center;
 	padding-top : 12px;
 	padding-bottom: 24px;
+	video {
+	    border: 1px solid #a0a0a0;
+	    display: inline-block;
+	    text-align: center;
+	    width: 80%;
+	    height: auto;
+	    padding: 8px;
+	}
 	.image_frame{
 	    display: inline-block;
 	    text-align: center;
@@ -132,7 +153,9 @@ input {
     }
     
     .header{
-	background-color: #a0a0a0;
+	z-index: 10;
+	background-color: #29B1FF;
+	color: #eee;
 	opacity: 0.95;
 	position: fixed;
 	top: 0;
@@ -177,8 +200,6 @@ input {
 		width: 100%;
 		max-width: 400px;
 		height: 32px;
-		background-color: #4b0;
-		color: #ffffff;
 		font-size: 16pt;
 	    }
 	}
@@ -191,6 +212,7 @@ input {
 	    bottom :0;
 	    width: 64px;
 	    height: 64px;
+	    border-radius: 32px;
 	    
 	    button {
 		vertical-align: middle;
@@ -198,8 +220,8 @@ input {
 		width: 100%;
 		max-width: 400px;
 		height: 64px;
-		background-color: #90d0ff;
-		color: #ffffff;
+		border-radius: 32px;
+
 		font-size: 24pt;
 
 		span {
@@ -209,7 +231,7 @@ input {
 		img {
 		    vertical-align: middle;
 		    display: inline;
-		    height: 64px;
+		    height: 48px;
 		}
 	    }
 	    
@@ -220,9 +242,12 @@ input {
 	margin-top: 400px;
 	margin-bottom: 40px;
 	
+	
 	.file {
+	    background-color: #222;
 	    display: inline-block;
 	    overflow: hidden;
+	    position: relative;
 	    
 	    .icon{
 		
@@ -231,6 +256,29 @@ input {
 	    img {
 		/*width: auto;*/
 		/*height: 100%;*/
+	    }
+
+	    img.expires {
+		opacity: 0.9;
+		width: 48px;
+		height: 48px;
+		padding: 8px;
+		border-radius: 24px;
+		background-color: #fff;
+		position: absolute;
+		right: 8px;
+		bottom: 8px;
+	    }
+	    img.movie {
+		opacity: 0.9;
+		width: 48px;
+		height: 48px;
+		padding: 8px;
+		border-radius: 24px;
+		background-color: #fff;
+		position: absolute;
+		left: calc(50% - 24px);
+		top: calc(50% - 24px);
 	    }
 	}
     }
@@ -255,7 +303,6 @@ input {
 	height: 48px;
 	padding: 12px;
 
-	background-color: #f0f0f0;
 
 	.bar{
 	    position: absolute;
@@ -274,14 +321,14 @@ input {
     }
 
     .user {
-	z-index: 2;
+	z-index: 12;
 	position: fixed;
 	right: 0;
 	top: 0;
 	width: 64px;
 	height: 64px;
 	border-radius: 32px;
-	background-color: #ffffff;
+	background-color: #F9C671;
 	border: 2px solid #303030;
 	text-align: center;
 	cursor: pointer;
@@ -299,17 +346,12 @@ input {
     }
 
     .user_dialog {
-	background-color: #fffff;
-	color: #202020;
 	
 	button {
-	    background-color: #a0a0a0;;
 	    width: 180px;
 	    margin: 10px;
 	}
 	input {
-	    background-color: #f0f0f0;
-	    color: #202020;
 	    width: 400px;
 	    margin: 10px;
 	}
