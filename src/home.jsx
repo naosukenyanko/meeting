@@ -9,6 +9,15 @@ import "./theme.scss"
 
 import { createRoot } from 'react-dom/client';
 
+function getExpire(num){
+	const d = new Date()
+	return new Date(
+		d.getFullYear()+num,
+		d.getMonth(),
+		d.getDate()
+	)
+}
+
 export default class App extends React.Component {
 	constructor(props){
 		super(props)
@@ -53,10 +62,26 @@ export default class App extends React.Component {
 	}
 
 	async onDelete(file){
-		console.log("delete", file)
 		const result = await api.post("deleteFile", {id: file.id})
 		await this.load();
 	}
+
+	async onInfinite(file){
+		const result = await api.post("setExpires", {
+			id: file.id,
+			expires: null,
+		})
+		await this.load();
+	}
+
+	async onLimit(file){
+		const result = await api.post("setExpires", {
+			id: file.id,
+			expires: getExpire(1)
+		})
+		await this.load();		
+	}
+		
 	
 	render(){
 		const onChange = (obj)=>{
@@ -71,7 +96,10 @@ export default class App extends React.Component {
 						onUpload={this.upload.bind(this)}/>
 				<div className="center_frame">
 					<FileList list={list} listStyle={listStyle}
-							  onDelete={this.onDelete.bind(this)}/>
+							  onDelete={this.onDelete.bind(this)}
+							  onLimit={this.onLimit.bind(this)}
+							  onInfinite={this.onInfinite.bind(this)}
+					/>
 				</div>
 
 				<Uploading data={uploading}/>

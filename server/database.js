@@ -78,6 +78,13 @@ module.exports = function(conf){
 			const result = await exec(query)
 			return result.rows;
 		},
+		setExpires: async(id, expires)=>{
+			const query = `UPDATE files set "expires" = $1 `
+				  + ` WHERE "id"=$2 `
+				  + ` RETURNING "id"`
+			const result = await exec(query, [expires, id])
+			return result.rows;
+		},
 		deleteFile: async(id)=>{
 			const query = `UPDATE files set "deleted" = true `
 				  + ` WHERE "id"=$1 `

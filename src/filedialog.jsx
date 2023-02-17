@@ -1,4 +1,5 @@
 import React from 'react'
+import size from './size'
 
 function extname(val){
 	const m = String(val).match(/\.([^\.]+)$/)
@@ -10,6 +11,9 @@ function extname(val){
 
 function formatDate(val, format = "YYYY/MM/DD hh:mm:dd"){
 
+	if( !val ){
+		return "--"
+	}
 	const ss = (val)=>{
 		return ("00" + val).slice(-2)
 	}
@@ -60,6 +64,14 @@ export default function FileDialog(props){
 		props.onDelete(data)
 		props.close();
 	}
+	const onInfinite = async()=>{
+		props.onInfinite(data)
+		props.close();
+	}
+	const onLimit = async()=>{
+		props.onLimit(data)
+		props.close();
+	}
 	const cancel = (evt)=>{
 		evt.stopPropagation()
 	}
@@ -88,7 +100,7 @@ export default function FileDialog(props){
 					</tr>
 					<tr>
 						<th>サイズ</th>
-						<td>{data.fileSize}</td>
+						<td>{ size(data.fileSize) }</td>
 					</tr>
 					<tr>
 						<th>保存期限</th>
@@ -103,6 +115,8 @@ export default function FileDialog(props){
 			<div className="buttons">
 				<button onClick={onDownload}>ダウンロード</button>
 				<button onClick={onDelete}>削除</button>
+				<button onClick={onLimit}>保存期限を1年に変更</button>
+				<button onClick={onInfinite}>保存期限を無期限に変更</button>
 			</div>
 		</div>
 	)

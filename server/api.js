@@ -38,6 +38,10 @@ module.exports = async function api(conf, req){
 			}
 			return await db.deleteFile(id)
 		},
+		setExpires: async()=>{
+			const {id, expires} = req.body;
+			return await db.setExpires(id, expires)
+		},
 		upload: async()=>{
 			console.log("upload", req.body, req.file)
 			const {file} = req;

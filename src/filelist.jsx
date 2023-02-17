@@ -78,7 +78,17 @@ export default function FileList(props){
 
 	console.log("list", list)
 
-	const files = list.map( (file, i)=>{
+	const files = list.filter( (file)=>{
+		if( file.deleted == true ) return false
+		const d = new Date();
+
+		if( file.expires ){
+			const expires = new Date(file.expires)
+			if( d > expires ) return false
+		}
+		
+		return true
+	}).map( (file, i)=>{
 		const key = [
 			list.length,
 			i,
