@@ -30,9 +30,9 @@ module.exports = function(conf){
 		register: async(filePath, thumbnail, req)=>{
 			console.log("register", filePath, req.body)
 			const {file, body} = req;
-			const {albumID = 0, userName = "guest", ipAddress} = body;
+			const {album = "", userName = "guest", ipAddress} = body;
 			const list = [
-				"albumID",
+				"album",
 				"fileName",
 				"filePath",
 				"thumbnail",
@@ -54,7 +54,7 @@ module.exports = function(conf){
 			const query = `INSERT INTO "files"(${cols}) VALUES(${ph}) `
 				  + "RETURNING id"
 			const args = [
-				albumID,
+				album,
 				file.originalname,
 				filePath,
 				thumbnail,
@@ -74,7 +74,7 @@ module.exports = function(conf){
 			return result.rows
 		},
 		getList: async()=>{
-			const query = `SELECT * FROM "files" ORDER BY created`
+			const query = `SELECT * FROM "files" ORDER BY created DESC`
 			const result = await exec(query)
 			return result.rows;
 		},
@@ -91,7 +91,14 @@ module.exports = function(conf){
 				  + ` RETURNING "id"`
 			const result = await exec(query, [id])
 			return result.rows;
-		}
+		},
+		changeAlbum: async(id, name)=>{
+			const query = `UPDATE files set "album" = $1`
+				  + ` WHERE "id"=$2 `
+				  + ` RETURNING "id"`
+			const result = await exec(query, [name, id])
+			return result.rows;
+		},
 	}
 }
 

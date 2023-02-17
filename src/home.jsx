@@ -4,7 +4,8 @@ import api from './api'
 import FileList from './filelist'
 import Header from './header'
 import Uploading from './uploading'
-
+import storage from './storage'
+import User from './user'
 import "./theme.scss"
 
 import { createRoot } from 'react-dom/client';
@@ -22,18 +23,23 @@ export default class App extends React.Component {
 	constructor(props){
 		super(props)
 		this.state = {
-			user: null,
+			user: storage.get("user"),
 			list: null,
-			listStyle: "large",
+			listStyle: storage.get("listStyle") || "large",
 			config: {
-				name: "HIGASHI COMMUNITY"
+				name: ""
 			},
+			album: storage.get("album") || "",
 			uploading: null,
 		}
 	}
 
 	componentDidMount(){
 		this.load()
+		window.addEventListener("resize", ()=>{
+			console.log("resize")
+			this.setState({innerWidth: window.innerWidth})
+		})
 	}
 
 	async load(){
@@ -43,11 +49,15 @@ export default class App extends React.Component {
 	}
 
 	async upload(files){
+		const {album, user} = this.state;
 		console.log("upload", files)
 		for(let i=0; i<files.length ; i++){
 			const file = files[0]
 			console.log("upload", file)
-			const ops = {albumid: 1, name: "guest"}
+			const ops = {
+				album: album,
+				userName: user || "guest",
+			}
 			const progress = (evt)=>{
 				console.log("proc", evt)
 				
@@ -59,6 +69,15 @@ export default class App extends React.Component {
 		}
 		this.setState({uploading: null})
 		await this.load()
+	}
+
+	async onChangeAlbum(file, name){
+		console.log("change album", file, name)
+		const result = await api.post("changeAlbum", {
+			id: file.id,
+			album: name,
+		})
+		await this.load();
 	}
 
 	async onDelete(file){
@@ -88,14 +107,22 @@ export default class App extends React.Component {
 			this.setState(obj)
 		}
 		const {list, listStyle, config, user, uploading} = this.state
+		const {album, albumList} = this.state;
+		
 		return (
 			<div className="main_frame">
 				<Header user={user} config={config}
 						listStyle={listStyle}
+						list={list}
+						album={album}
 						onChange={onChange}
 						onUpload={this.upload.bind(this)}/>
+				<User user={user}
+					  onChange={onChange}/>
 				<div className="center_frame">
 					<FileList list={list} listStyle={listStyle}
+							  album={album}
+							  onChangeAlbum={this.onChangeAlbum.bind(this)}
 							  onDelete={this.onDelete.bind(this)}
 							  onLimit={this.onLimit.bind(this)}
 							  onInfinite={this.onInfinite.bind(this)}

@@ -1,6 +1,7 @@
 import React from 'react'
 import size from './size'
-
+import formatDate from './formatdate'
+import {makeList} from './albumdialog'
 function extname(val){
 	const m = String(val).match(/\.([^\.]+)$/)
 	if( m ){
@@ -9,23 +10,36 @@ function extname(val){
 	return ""
 }
 
-function formatDate(val, format = "YYYY/MM/DD hh:mm:dd"){
+function Album(props){
+	const {data, list} = props;
+	const res = new Set()
+	
+	for(let item of list ){
+		if( item.deleted == true ) continue
+		res.add(item.album)
+	}
+	const keys = res.keys()
 
-	if( !val ){
-		return "--"
+	console.log("keys", keys)
+
+	const albumList = []
+	for(let key of keys){
+		albumList.push(
+			<option value={key} key={key}>{key || "(home)"}</option>
+		)
+		
 	}
-	const ss = (val)=>{
-		return ("00" + val).slice(-2)
+
+	const onChange = (evt)=>{
+		props.onChangeAlbum(data, evt.target.value)
+		props.close()
 	}
-	const d = new Date(val)
-	let result = format
-	result = result.replace("YYYY", d.getFullYear() )
-	result = result.replace("MM", ss(d.getMonth()+1) )
-	result = result.replace("DD", ss(d.getDate() ) )
-	result = result.replace("hh", ss(d.getHours() ) )
-	result = result.replace("mm", ss(d.getMinutes() ) )
-	result = result.replace("dd", ss(d.getSeconds() ))
-	return result
+	
+	return (
+		<select value={data.album} onChange={onChange}>
+			{albumList}
+		</select>
+	)
 }
 
 export default function FileDialog(props){
@@ -101,6 +115,12 @@ export default function FileDialog(props){
 					<tr>
 						<th>サイズ</th>
 						<td>{ size(data.fileSize) }</td>
+					</tr>
+					<tr>
+						<th>アルバム</th>
+						<td>
+							<Album {...props}/>
+						</td>
 					</tr>
 					<tr>
 						<th>保存期限</th>

@@ -1,6 +1,6 @@
-import React from "react"
-
-
+import React, {useState} from "react"
+import AlbumDialog from './albumdialog'
+import storage from './storage'
 const showOpenFileDialog = () => {
     return new Promise(resolve => {
         const input = document.createElement('input');
@@ -16,6 +16,7 @@ function SizeButtons(props){
 	const {listStyle} = props;
 	const list = ["large", "medium", "small"].map( (item, i)=>{
 		const onClick = ()=>{
+			storage.set("listStyle", item)
 			props.onChange({listStyle: item})
 		}
 		const className = item === listStyle ? "selected": "";
@@ -40,6 +41,14 @@ export default function Header(props){
 		console.log("files", files)
 		props.onUpload(files)
 	}
+
+	const [dialog, setDialog] = useState("closed")
+	const onClickAlbum = ()=>{
+		setDialog("opened")
+	}
+	const close = ()=>{
+		setDialog("clsoe")
+	}
 	
 	return (
 		<div className="header">
@@ -47,7 +56,11 @@ export default function Header(props){
 			<SizeButtons {...props}/>
 
 			<div className="album">
-				<button title="アルバム切り替え">HOME</button>
+				<button title="アルバム切り替え"
+						onClick={onClickAlbum}
+				>
+					{props.album || "home"}
+				</button>
 			</div>
 			<div className="upload">
 				<button title="upload" onClick={upload}>
@@ -55,6 +68,7 @@ export default function Header(props){
 					
 				</button>
 			</div>
+			<AlbumDialog dialog={dialog} {...props} close={close}/>
 		</div>
 		
 	)

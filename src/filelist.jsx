@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import FileDialog from './filedialog'
+import formatDate from './formatdate'
 
 function extname(val){
 	const m = String(val).match(/\.([^\.]+)$/)
@@ -12,19 +13,20 @@ function extname(val){
 function File(props){
 	const {data, listStyle} = props;
 
+	const margin = 20;
 	const style = {}
 	const width = window.innerWidth
 	if(listStyle === "large"){
-		style.width = width / 2.0 -10
-		style.height = width / 2.0 -10
+		style.width = width / 2.0 - margin
+		style.height = width / 2.0 - margin
 	}
 	if(listStyle === "medium"){
-		style.width = width / 4.0 -10
-		style.height = width / 4.0 -10
+		style.width = width / 4.0 - margin
+		style.height = width / 4.0 - margin
 	}
 	if(listStyle === "small"){
-		style.width = width / 8.0 -10
-		style.height = width / 8.0 -10
+		style.width = width / 8.0 - margin
+		style.height = width / 8.0 -margin
 	}
 	const imgStyle = {
 		height: style.height,
@@ -67,7 +69,7 @@ function File(props){
 }
 
 export default function FileList(props){
-	const {list, listStyle} = props;
+	const {list, listStyle, album} = props;
 	if( list === null){
 		return (
 			<div className="loading_frame">
@@ -76,9 +78,10 @@ export default function FileList(props){
 		)
 	}
 
-	console.log("list", list)
+	//console.log("list", list)
 
 	const files = list.filter( (file)=>{
+		if( file.album !== album ) return false;
 		if( file.deleted == true ) return false
 		const d = new Date();
 
@@ -99,6 +102,8 @@ export default function FileList(props){
 			<File {...props} data={file} key={i} />				
 		)
 	})
+
+	
 	return (
 		<div className="file_list">
 			{files}

@@ -42,6 +42,10 @@ module.exports = async function api(conf, req){
 			const {id, expires} = req.body;
 			return await db.setExpires(id, expires)
 		},
+		changeAlbum: async()=>{
+			const {id, album} = req.body
+			return await db.changeAlbum(id, album)
+		},
 		upload: async()=>{
 			console.log("upload", req.body, req.file)
 			const {file} = req;

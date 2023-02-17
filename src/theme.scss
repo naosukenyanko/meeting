@@ -3,6 +3,16 @@ body {
     font-family:"BIZ UDGothic";
 }
 
+button {
+    background-color: #f0f0f0;
+    color: #666;
+}
+input {
+    background-color: #f0f0f0;
+    color: #666;
+
+}
+
 .main_frame{
     text-align: center;
 
@@ -15,7 +25,7 @@ body {
 	bottom: 0;
 	overflow: auto;
 	color: #101010;
-
+	z-index: 100;
 	
 	.close {
 	    position: absolute;
@@ -58,6 +68,11 @@ body {
 	table tr:last-child{
 	    border-bottom: none;
 	}
+	table select {
+	    background-color: #f0f0f0;
+	    color: #909090;
+	    width: 90%;
+	}
 
 	table th{
 	    position: relative;
@@ -83,6 +98,35 @@ body {
 		width: 40%;
 		margin: 12px 5%;
 		height: 48px;
+	    }
+	}
+    }
+
+    .albumdialog {
+	z-index: 100;
+	input.album_name {
+	    width: 400px;
+	}
+	ul {
+	    margin: 12px;
+	    display: inline-block;
+	    width: 400px;
+	    border: 1px solid #202020;
+	    max-height: 400px;
+	    min-height: 32px;
+	    overflow: auto;
+	}
+	li{
+	    cursor: pointer;
+	}
+	li:hover{
+	    background-color: #f0ffff;
+	}
+	.buttons {
+	    button{
+		margin: 10px;
+		height: 42px;
+		width: 180px;
 	    }
 	}
     }
@@ -226,6 +270,48 @@ body {
 	    top: 0;
 	    bottom: 0;
 	    right: 0;
+	}
+    }
+
+    .user {
+	z-index: 2;
+	position: fixed;
+	right: 0;
+	top: 0;
+	width: 64px;
+	height: 64px;
+	border-radius: 32px;
+	background-color: #ffffff;
+	border: 2px solid #303030;
+	text-align: center;
+	cursor: pointer;
+	color: #909090;
+	
+	img {
+	    display: inline;
+	    width: 32px;
+	    height: 32px;
+	}
+	span{
+	    display: block;
+	    margin-top: -10px;
+	}
+    }
+
+    .user_dialog {
+	background-color: #fffff;
+	color: #202020;
+	
+	button {
+	    background-color: #a0a0a0;;
+	    width: 180px;
+	    margin: 10px;
+	}
+	input {
+	    background-color: #f0f0f0;
+	    color: #202020;
+	    width: 400px;
+	    margin: 10px;
 	}
     }
 }
