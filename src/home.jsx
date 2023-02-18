@@ -7,6 +7,7 @@ import Uploading from './uploading'
 import storage from './storage'
 import User from './user'
 import "./theme.scss"
+import Extend from './extend'
 
 import { createRoot } from 'react-dom/client';
 
@@ -31,6 +32,9 @@ export default class App extends React.Component {
 			},
 			album: storage.get("album") || "",
 			uploading: null,
+			extend: storage.get("extend") ?? "off",
+			search: "",
+			fileType: "all",
 		}
 	}
 
@@ -109,6 +113,7 @@ export default class App extends React.Component {
 		}
 		const {list, listStyle, config, user, uploading} = this.state
 		const {album, albumList} = this.state;
+		const {extend, search, fileType} = this.state;
 		
 		return (
 			<div className="main_frame">
@@ -117,9 +122,17 @@ export default class App extends React.Component {
 						list={list}
 						album={album}
 						onChange={onChange}
-						onUpload={this.upload.bind(this)}/>
+						onUpload={this.upload.bind(this)}>
+
+					<Extend extend={extend}
+						search={search}
+						onChange={onChange}
+						fileType={fileType}/>
+				</Header>
 				<User user={user}
+					  extend={extend}
 					  onChange={onChange}/>
+				
 				<div className="center_frame">
 					<FileList list={list} listStyle={listStyle}
 							  album={album}

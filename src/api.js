@@ -38,6 +38,7 @@ export default {
 			return res.data
 		}else{
 			console.error( res.text )
+			alert("アップロードに失敗しました")
 		}
 	},
 }

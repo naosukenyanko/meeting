@@ -11,6 +11,7 @@ function UserDialog(props){
 	console.log(dialog, init)
 	
 	const [name, setName] = useState( user )
+	const [extend, setExtend ] = useState( props.extend )
 	const onChange = (evt)=>{
 		setName(evt.target.value)
 	}
@@ -18,7 +19,11 @@ function UserDialog(props){
 		return ()=>{
 			if(flag == "ok"){
 				storage.set("user", name)
-				props.onChange({user: name})
+				storage.set("extend", extend)
+				props.onChange({
+					user: name,
+					extend: extend,
+				})
 			}
 			storage.set("init", 1)
 			
@@ -28,12 +33,21 @@ function UserDialog(props){
 	const cancel = (evt)=>{
 		evt.stopPropagation()
 	}
+	const onChangeExtend = (evt)=>{
+		setExtend( evt.target.value )
+	}
 	
 	return (
 		<div className="dialog user_dialog" onClick={cancel}>
 			<p>名前を入力してください</p>
 			<input type="text" value={name ?? ""} onChange={onChange}/>
 
+			<p>拡張機能(PC向け)</p>
+			<select value={extend} onChange={onChangeExtend}>
+				<option value="on">使用する</option>
+				<option value="off">使用しない</option>
+			</select>
+			
 			<div>
 				<button onClick={onClick("ok")}>
 					OK

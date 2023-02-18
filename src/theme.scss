@@ -176,7 +176,17 @@ td {
 	
 	text-align: center;
 	padding: 24px;
+	overflow: auto;
+
+	.frame {
+	    display: inline-block;
+	}
 	
+	.left_frame {
+	    vertical-align:top;
+	    min-width: 300px;
+	    display: inline-block;
+	}
 	
 	.title{
 	    font-size: 16pt;
@@ -323,6 +333,8 @@ td {
     }
 
     .uploading{
+	background-color: #fff;
+	opacity: 0.9;
 	position: fixed;
 	bottom: 0;
 	left:0;
@@ -387,8 +399,39 @@ td {
 	    max-width: 400px;
 	    margin: 10px;
 	}
+
+	select {
+	    height: 48px;
+	    line-height:48px;
+	    width: 90%;
+	    max-width: 400px;
+	    margin: 10px;
+	}
+
     }
 
+    .extend_tools {
+	vertical-align:top;
+	display: inline-block;
+
+	input {
+	    margin: 10px;
+	    width: 460px;
+	    height: 48px;	
+	}
+	select {
+	    margin: 10px;
+	    width: 180px;
+	    height: 48px;	    
+	}
+	button {
+	    margin: 10px;
+	    width: 120px;
+	    height: 48px;	    
+	}
+	
+    }
+    
     @media (max-width: 600px){
 	.user {
 	    width: 48px;

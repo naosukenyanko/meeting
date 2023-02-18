@@ -53,22 +53,31 @@ export default function Header(props){
 	return (
 		<div className="header">
 			<div className="title">{config.name}</div>
-			<SizeButtons {...props}/>
 
-			<div className="album">
-				<button title="アルバム切り替え"
-						onClick={onClickAlbum}
-				>
-					{props.album || "home"}
-				</button>
-			</div>
-			<div className="upload">
-				<button title="upload" onClick={upload}>
-					<img src="./images/upload.png"/>
+			<div className="frame">
+
+				<div className="left_frame">
 					
-				</button>
+					<SizeButtons {...props}/>
+					
+					<div className="album">
+						<button title="アルバム切り替え"
+								onClick={onClickAlbum}
+						>
+							{props.album || "home"}
+						</button>
+					</div>
+					<div className="upload">
+						<button title="upload" onClick={upload}>
+							<img src="./images/upload.png"/>
+							
+						</button>
+					</div>
+					<AlbumDialog dialog={dialog} {...props} close={close}/>
+				</div>
+				
+				{props.children}
 			</div>
-			<AlbumDialog dialog={dialog} {...props} close={close}/>
 		</div>
 		
 	)
