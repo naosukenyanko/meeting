@@ -117,7 +117,8 @@ export default class App extends React.Component {
 		
 		return (
 			<div className="main_frame">
-				<Header user={user} config={config}
+				<Header user={user}
+						config={config}
 						listStyle={listStyle}
 						list={list}
 						album={album}
@@ -125,9 +126,9 @@ export default class App extends React.Component {
 						onUpload={this.upload.bind(this)}>
 
 					<Extend extend={extend}
-						search={search}
-						onChange={onChange}
-						fileType={fileType}/>
+							search={search}
+							fileType={fileType}
+					onChange={onChange}/>
 				</Header>
 				<User user={user}
 					  extend={extend}
@@ -136,6 +137,9 @@ export default class App extends React.Component {
 				<div className="center_frame">
 					<FileList list={list} listStyle={listStyle}
 							  album={album}
+							  search={search}
+							  user={user}
+							  fileType={fileType}
 							  onChangeAlbum={this.onChangeAlbum.bind(this)}
 							  onDelete={this.onDelete.bind(this)}
 							  onLimit={this.onLimit.bind(this)}

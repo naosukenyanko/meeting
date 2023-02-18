@@ -8,14 +8,18 @@ body {
 button {
     background-color: #F9C671;;
     color: #222;
+    border: 1px solid #222;
 }
 input {
     background-color: #F9C671;;
     color: #222;
+    border: 1px solid #222;
+    padding: 0 4px;
 }
 select {
     background-color: #F9C671;;
     color: #222;
+    border: 1px solid #222;
 }
 th{
     background-color: #F9C671;
@@ -25,6 +29,46 @@ td {
     background-color: #E1F5FE;
     color: #202020;
 }
+ul {    
+    background-color: #E1F5FE;
+    color: #202020;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+table tr{
+    border-bottom: solid 2px #fff;
+}
+
+table tr:last-child{
+    border-bottom: none;
+}
+table select {
+    background-color: #E1F5FE;
+    color: #222;
+    width: 90%;
+}
+
+table th{
+    position: relative;
+    text-align: left;
+    width: 30%;
+    background-color: #52c2d0;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+}
+
+table td{
+    text-align: left;
+    width: 70%;
+    text-align: center;
+    background-color: #E1F5FE;
+    padding: 10px 0;
+}
+
 
 .main_frame{
     text-align: center;
@@ -79,40 +123,9 @@ td {
 	table {
 	    width: 90%;
 	    margin-left: 5%;
-	    border-collapse: collapse;
 	}
 
-	table tr{
-	    border-bottom: solid 2px white;
-	}
-
-	table tr:last-child{
-	    border-bottom: none;
-	}
-	table select {
-	    background-color: #f0f0f0;
-	    color: #909090;
-	    width: 90%;
-	}
-
-	table th{
-	    position: relative;
-	    text-align: left;
-	    width: 30%;
-	    background-color: #52c2d0;
-	    color: white;
-	    text-align: center;
-	    padding: 10px 0;
-	}
-
-	table td{
-	    text-align: left;
-	    width: 70%;
-	    text-align: center;
-	    background-color: #eee;
-	    padding: 10px 0;
-	}
-
+	
 	table button{
 	    padding: 8px;
 	    width: 120px;
@@ -120,7 +133,6 @@ td {
 
 	.buttons {
 	    button{
-		background-color: #c0c0c0;
 		width: 40%;
 		margin: 12px 5%;
 		height: 48px;
@@ -152,7 +164,7 @@ td {
 	    line-height:48px;
 	}
 	li:hover{
-	    background-color: #f0ffff;
+	    background-color: #29B1FF;
 	}
 	.buttons {
 	    button{
@@ -219,6 +231,7 @@ td {
 	    margin: 4px;
 	    text-align: center;
 	    button{
+		margin-top: 4px;
 		width: 100%;
 		max-width: 400px;
 		height: 32px;
@@ -265,7 +278,7 @@ td {
 	margin-bottom: 40px;
 
 	.file:hover{
-	    border: 2px solid #222;
+	    border: 2px solid #29B1FF;
 	}
 	
 	.file {
@@ -322,6 +335,7 @@ td {
 
     .loading_frame{
 	text-align: center;
+	margin-top : 200px;
 	#loading {
 	    animation:3s linear infinite rotation1;
 	    display: inline;
@@ -415,21 +429,32 @@ td {
 	display: inline-block;
 
 	input {
-	    margin: 10px;
-	    width: 460px;
-	    height: 48px;	
+	    margin: 4px;
+	    width: 396px;
+	    height: 26px;
+	    border: 1px solid #222;
 	}
 	select {
-	    margin: 10px;
-	    width: 180px;
-	    height: 48px;	    
+	    margin: 4px;
+	    width: 140px;
+	    height: 32px;
+	    border: 1px solid #222;
 	}
 	button {
-	    margin: 10px;
+	    margin: 4px;
 	    width: 120px;
-	    height: 48px;	    
+	    height: 32px;
+	    border: 1px solid #222;
 	}
 	
+    }
+
+    .server_status {
+	table {
+	    display: inline-block;
+	    width: 90%;
+	    max-width: 400px;
+	}
     }
     
     @media (max-width: 600px){

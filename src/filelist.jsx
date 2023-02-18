@@ -2,6 +2,28 @@ import React, {useState} from 'react'
 import FileDialog from './filedialog'
 import formatDate from './formatdate'
 
+function zenkaku2Hankaku(str) {
+	return str.replace(/[Ａ-Ｚａ-ｚ０-９]/g, function(s) {
+        return String.fromCharCode(s.charCodeAt(0) - 0xFEE0);
+    });
+
+}
+
+
+function TextMatch( text, file){
+	let {fileName} = file;
+	const t = zenkaku2Hankaku( String(text) )
+	const name = zenkaku2Hankaku( String( fileName ) )
+
+	console.log(t, name)
+	
+	if( text.toLowerCase() === text ){		
+		return name.toLowerCase().indexOf( t ) >= 0;
+	}else{
+		return name.indexOf( t ) >= 0
+	}
+}
+
 function extname(val){
 	const m = String(val).match(/\.([^\.]+)$/)
 	if( m ){
@@ -123,7 +145,7 @@ function File(props){
 ////////////////////////////////////////////////////
 
 export default function FileList(props){
-	const {list, listStyle, album} = props;
+	const {list, listStyle, album, user, fileType, search} = props;
 	if( list === null){
 		return (
 			<div className="loading_frame">
@@ -135,7 +157,11 @@ export default function FileList(props){
 	//console.log("list", list)
 
 	const files = list.filter( (file)=>{
-		if( file.album !== album ) return false;
+		if( search ){
+			if( !TextMatch(search, file) ) return false
+		}else{
+			if( file.album !== album ) return false;
+		}
 		if( file.deleted == true ) return false
 		const d = new Date();
 

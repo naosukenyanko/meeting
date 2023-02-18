@@ -4,7 +4,7 @@ const fs = require('fs').promises
 const DATABASE = require('./database')
 
 const makeThumbnail = require('./thumbnail')
-
+const getServerStatus = require('./status')
 
 function makeHash(length = 64){
 	const alphabet = "abcdefghijklmnopqrstuvwxyz0123456789".split("")
@@ -63,7 +63,10 @@ module.exports = async function api(conf, req){
 			
 						
 			return await db.register(dst, thumbnail, req)
-		}
+		},
+		getServerStatus: async()=>{
+			return await getServerStatus();
+		},
 	}
 	const func = table[command]
 	if( !func ) throw new Error("command not found")

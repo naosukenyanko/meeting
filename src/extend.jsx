@@ -1,5 +1,5 @@
-import React from "react"
-
+import React, {useState} from "react"
+import ServerStatus from './server'
 
 function Search(props){
 	const onChange = (evt)=>{
@@ -34,6 +34,16 @@ export default function ExtendTools(props){
 
 	if( extend !== "on" ) return null
 
+	const [dialog, setDialog] = useState("closed")
+
+	const onClick = (evt)=>{
+		setDialog( "opened" )
+	}
+
+	const close = ()=>{
+		setDialog("closed")
+	}
+
 	return (
 		<div className="extend_tools">
 			<Search {...props}/>
@@ -41,9 +51,11 @@ export default function ExtendTools(props){
 			<div>
 				<FileType {...props}/>
 				<button>まとめて処理</button>
-				<button>サーバー状況</button>
+				<button onClick={onClick}>サーバー状況</button>
 			</div>
-			
+
+			<ServerStatus dialog={dialog}
+						  close={close}/>
 		</div>
 	);
 }
