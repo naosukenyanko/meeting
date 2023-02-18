@@ -113,6 +113,11 @@ td {
 	    padding: 10px 0;
 	}
 
+	table button{
+	    padding: 8px;
+	    width: 120px;
+	}
+
 	.buttons {
 	    button{
 		background-color: #c0c0c0;
@@ -124,14 +129,18 @@ td {
     }
 
     .albumdialog {
-	z-index: 100;
+	z-index: 150;
 	input.album_name {
-	    width: 400px;
+	    max-width: 400px;
+	    width: 90%;
+	    height: 48px;
+	    line-height:48px;
 	}
 	ul {
 	    margin: 12px;
 	    display: inline-block;
-	    width: 400px;
+	    width: 90%;
+	    max-width: 400px;
 	    border: 1px solid #202020;
 	    max-height: 400px;
 	    min-height: 32px;
@@ -139,6 +148,8 @@ td {
 	}
 	li{
 	    cursor: pointer;
+	    height: 48px;
+	    line-height:48px;
 	}
 	li:hover{
 	    background-color: #f0ffff;
@@ -147,7 +158,8 @@ td {
 	    button{
 		margin: 10px;
 		height: 42px;
-		width: 180px;
+		max-width: 180px;
+		width: 40%;
 	    }
 	}
     }
@@ -177,7 +189,7 @@ td {
 	    text-align: center;
 	    button {
 		width: 33%;
-		max-width: 120px;
+		max-width: 133px;
 		background-color: #303030;
 		color: #ffffff;
 	    }
@@ -241,13 +253,17 @@ td {
     .file_list {
 	margin-top: 400px;
 	margin-bottom: 40px;
-	
+
+	.file:hover{
+	    border: 2px solid #222;
+	}
 	
 	.file {
 	    background-color: #222;
 	    display: inline-block;
 	    overflow: hidden;
 	    position: relative;
+	    border: 2px solid #aaa;
 	    
 	    .icon{
 		
@@ -260,10 +276,10 @@ td {
 
 	    img.expires {
 		opacity: 0.9;
-		width: 48px;
-		height: 48px;
+		width: 32px;
+		height: 32px;
 		padding: 8px;
-		border-radius: 24px;
+		border-radius: 16px;
 		background-color: #fff;
 		position: absolute;
 		right: 8px;
@@ -279,6 +295,17 @@ td {
 		position: absolute;
 		left: calc(50% - 24px);
 		top: calc(50% - 24px);
+	    }
+	    .file_name {
+		opacity: 0.8;
+		background-color: #ffffff;
+		line-height: 48px;
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		height: 48px;
+		text-align: center;
 	    }
 	}
     }
@@ -332,7 +359,7 @@ td {
 	border: 2px solid #303030;
 	text-align: center;
 	cursor: pointer;
-	color: #909090;
+	color: #222;
 	
 	img {
 	    display: inline;
@@ -348,12 +375,35 @@ td {
     .user_dialog {
 	
 	button {
-	    width: 180px;
+	    width: 40%;
+	    max-width: 180px;
 	    margin: 10px;
+	    height: 48px;
 	}
 	input {
-	    width: 400px;
+	    height: 48px;
+	    line-height:48px;
+	    width: 90%;
+	    max-width: 400px;
 	    margin: 10px;
 	}
+    }
+
+    @media (max-width: 600px){
+	.user {
+	    width: 48px;
+	    height: 48px;
+	    border-radius: 24px;
+	    font-size: 10pt;
+	    
+	    img {
+		height: 24px;
+		width: 24px;
+	    }
+	    span{
+		margin-top: -8px;
+	    }
+	}
+	
     }
 }

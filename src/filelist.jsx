@@ -10,9 +10,23 @@ function extname(val){
 	return ""
 }
 
+function FileName(props){
+	const {data, style} = props;
+	const {fileName} = data;
+	if(style.width < 64) return null
+	
+	return (
+		<div className="file_name">
+			{fileName}
+		</div>
+	);
+}
+
 function Expire(props){
-	const {data} = props
+	const {data, style} = props
 	const {expires} = data
+
+	if(style.width < 64) return null
 
 	console.log("expires", expires)
 	if( !expires ){
@@ -33,7 +47,8 @@ function Expire(props){
 }
 
 function Movie(props){
-	const {data} = props
+	const {data, style} = props
+	if(style.width < 64) return null
 	const {fileName, filePath, thumbnail} = data
 	const ext = extname(filePath)
 	const movie = ["mp4", "mov"]
@@ -93,13 +108,19 @@ function File(props){
 		<div className={className.join(" ")} style={style} onClick={openDialog}>
 			<div className="icon">
 				<img src={src} style={imgStyle}/>
-				<Expire {...props}/>
-				<Movie {...props}/>
+				<FileName {...props} style={style}/>
+				<Expire {...props} style={style}/>
+				<Movie {...props} style={style}/>
+				
 			</div>
 			<FileDialog {...props} dialog={dialog} close={close}/>
 		</div>
 	)
 }
+				 
+				 
+				 
+////////////////////////////////////////////////////
 
 export default function FileList(props){
 	const {list, listStyle, album} = props;
