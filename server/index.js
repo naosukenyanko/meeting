@@ -6,11 +6,11 @@ const path = require('path')
 const express = require('express')
 const multer = require('multer')
 const api = require('./api')
-const logger = require('./logger')
+const makeLogger = require('./logger')
 
 async function makeDirs(){
 	const list = [
-		"./log",
+		//"./log",
 		"./files",
 		"./conf",
 		"./tmp",
@@ -25,7 +25,7 @@ async function makeDirs(){
 async function getConf(){
 	const confPath = "./conf/server.json"
 	let conf;
-
+	
 	try{
 		const stat = await fs.stat(confPath)
 	}catch(e){
@@ -62,6 +62,8 @@ async function run(){
 	await makeDirs()
 	const conf = await getConf()
 
+	const logger = makeLogger(conf)
+
 	const {port, limit = '1000mb'} = conf
 
 	const app = express()
@@ -79,12 +81,12 @@ async function run(){
 	})
 
 	app.post("/api", multer({ dest: 'tmp/' }).single('file'), async(req, res)=>{
-		const ip = req.ip
+		const ip = req.headers['x-real-ip'] || req.connection.remoteAddress;
 		//console.log("ip", ip)
 		const {command, id, user} = req.body
-		logger.write(`api execut (${command}, ${id}, ${user}, ${ip})`)
+		logger.write(ip, `api execute (${command}, ${id}, ${user})`)
 		try{
-			const result = await api(conf, req)
+			const result = await api(conf, req, logger)
 			const data = JSON.stringify({status: "success", data: result})
 			res.writeHead(200, {'Content-Type': 'text/html'})
 			res.end(data, 'utf-8')
@@ -101,11 +103,19 @@ async function run(){
 	app.use("/thumbnail/", express.static('thumbnail'));
 	
 	app.use(express.static('htdocs'));
-	app.use("/log/server.log", express.static('log/server.log'));
+	app.get("/log/server.log", async(req, res)=>{
+		const ip = req.headers['x-real-ip'] || req.connection.remoteAddress;
+		logger.write(ip, "download log")
+		const data = await logger.download();
+		res.setHeader('content-type', 'text/plain');
+		res.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8'})
+		res.end(data)
+
+	})
 
 	app.listen(port, ()=>{
 		console.log(`Server running at ${port}`)
-		logger.write(`Server stat at ${port}`)
+		logger.write(null, `Server stat at ${port}`)
 	})
 	
 

@@ -12,3 +12,10 @@ CREATE TABLE if not exists files (
        "ipAddress" text,
        "fileSize" numeric
 );
+
+CREATE TABLE if not exists log(
+       "id" serial primary key,
+       "timestamp" timestamp default CURRENT_TIMESTAMP, 
+       "body" text,
+       "ip" text
+)      

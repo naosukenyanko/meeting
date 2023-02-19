@@ -19,7 +19,7 @@ function makeHash(length = 64){
 }
 
 
-module.exports = async function api(conf, req){
+module.exports = async function api(conf, req, logger){
 	const db = DATABASE(conf);
 	
 	const {command} = req.body

@@ -1,6 +1,7 @@
 
 const { Client } = require('pg')
-const logger = require('./logger')
+const makeLogger = require('./logger')
+
 function date(year = 0, month = 0, date = 0){
 	const d = new Date()
 
@@ -12,6 +13,8 @@ function date(year = 0, month = 0, date = 0){
 }
 
 module.exports = function(conf){
+
+	const logger = makeLogger(conf)
 	
 	const exec = async(query, args)=>{
 		const client = new Client({
@@ -72,7 +75,7 @@ module.exports = function(conf){
 			const result = await exec(query, args)
 
 			const [res = {}] = result.rows;
-			logger.write(`register (${res.id}, ${fileName}, ${filePath})`)
+			logger.write(null, `register (${res.id}, ${fileName}, ${filePath})`)
 
 			//console.log(result)
 			
