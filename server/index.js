@@ -6,6 +6,7 @@ const path = require('path')
 const express = require('express')
 const multer = require('multer')
 const api = require('./api')
+const logger = require('./logger')
 
 async function makeDirs(){
 	const list = [
@@ -71,13 +72,17 @@ async function run(){
 
 	
 	app.get(["/", "/index.html"], async(req, res)=>{
-		console.log("index.html")
+		//console.log("index.html")
 		const body = await getHTML("index.html", conf)
 		res.writeHead(200, {'Content-Type': 'text/html'})
 		res.end(body, 'utf-8')
 	})
 
 	app.post("/api", multer({ dest: 'tmp/' }).single('file'), async(req, res)=>{
+		const ip = req.ip
+		//console.log("ip", ip)
+		const {command, id, user} = req.body
+		logger.write(`api execut (${command}, ${id}, ${user}, ${ip})`)
 		try{
 			const result = await api(conf, req)
 			const data = JSON.stringify({status: "success", data: result})
@@ -94,10 +99,13 @@ async function run(){
 	app.use("/scripts/compiled", express.static('compiled'));
 	app.use("/files/", express.static('files'));
 	app.use("/thumbnail/", express.static('thumbnail'));
+	
 	app.use(express.static('htdocs'));
+	app.use("/log/server.log", express.static('log/server.log'));
 
 	app.listen(port, ()=>{
 		console.log(`Server running at ${port}`)
+		logger.write(`Server stat at ${port}`)
 	})
 	
 
@@ -108,6 +116,8 @@ async function run(){
 	}).listen(conf.port)
 	
 	*/
+
+
 	
 }
 

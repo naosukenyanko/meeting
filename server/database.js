@@ -1,6 +1,6 @@
 
 const { Client } = require('pg')
-
+const logger = require('./logger')
 function date(year = 0, month = 0, date = 0){
 	const d = new Date()
 
@@ -53,10 +53,11 @@ module.exports = function(conf){
 			
 			const query = `INSERT INTO "files"(${cols}) VALUES(${ph}) `
 				  + "RETURNING id"
+			const fileName = decodeURI(body.name)
 			const args = [
 				album,
 				//file.originalname,
-				decodeURI(body.name),
+				fileName,
 				filePath,
 				thumbnail,
 				date(1),
@@ -69,6 +70,9 @@ module.exports = function(conf){
 			//console.log("query", query)
 			
 			const result = await exec(query, args)
+
+			const [res = {}] = result.rows;
+			logger.write(`register (${res.id}, ${fileName}, ${filePath})`)
 
 			//console.log(result)
 			

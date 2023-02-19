@@ -47,8 +47,9 @@ export default class App extends React.Component {
 	}
 
 	async load(){
-		const config = await api.post("getConf", {})
-		const list = await api.post("getList", {})
+		const {album, user} = this.state;
+		const config = await api.post("getConf", {user})
+		const list = await api.post("getList", {user})
 		this.setState({list, config})
 	}
 
@@ -59,6 +60,7 @@ export default class App extends React.Component {
 			const file = files[i]
 			console.log("upload", file)
 			const ops = {
+				user: user,
 				album: album,
 				userName: user || "guest",
 				name: encodeURI(file.name)
@@ -78,29 +80,36 @@ export default class App extends React.Component {
 
 	async onChangeAlbum(file, name){
 		console.log("change album", file, name)
+		const {user} = this.state;
 		const result = await api.post("changeAlbum", {
 			id: file.id,
 			album: name,
+			user: user,
 		})
 		await this.load();
 	}
 
 	async onDelete(file){
-		const result = await api.post("deleteFile", {id: file.id})
+		const {user} = this.state;
+		const result = await api.post("deleteFile", {id: file.id, user})
 		await this.load();
 	}
 
 	async onInfinite(file){
+		const {user} = this.state;
 		const result = await api.post("setExpires", {
 			id: file.id,
+			user,
 			expires: null,
 		})
 		await this.load();
 	}
 
 	async onLimit(file){
+		const {user} = this.state;
 		const result = await api.post("setExpires", {
 			id: file.id,
+			user,
 			expires: getExpire(1)
 		})
 		await this.load();		

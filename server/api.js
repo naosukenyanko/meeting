@@ -6,6 +6,7 @@ const DATABASE = require('./database')
 const makeThumbnail = require('./thumbnail')
 const getServerStatus = require('./status')
 
+
 function makeHash(length = 64){
 	const alphabet = "abcdefghijklmnopqrstuvwxyz0123456789".split("")
 	let result = ""
@@ -61,7 +62,7 @@ module.exports = async function api(conf, req){
 			
 			await fs.rename(file.path, dst)
 			
-						
+			
 			return await db.register(dst, thumbnail, req)
 		},
 		getServerStatus: async()=>{

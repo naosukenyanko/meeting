@@ -39,7 +39,7 @@ table {
 }
 
 table tr{
-    border-bottom: solid 2px #fff;
+    border-bottom: solid 2px #E1F5FE;
 }
 
 table tr:last-child{
@@ -48,6 +48,7 @@ table tr:last-child{
 table select {
     background-color: #E1F5FE;
     color: #222;
+    height: 32px;
     width: 90%;
 }
 
@@ -65,9 +66,11 @@ table td{
     text-align: left;
     width: 70%;
     text-align: center;
-    background-color: #E1F5FE;
+    background-color: #fff;
     padding: 10px 0;
 }
+
+
 
 
 .main_frame{
@@ -450,8 +453,15 @@ table td{
     }
 
     .server_status {
-	table {
+	.table-container{
 	    display: inline-block;
+	    width: 90%;
+	    max-width: 400px;
+	}
+	table {
+	    width: 100%;
+	}
+	button {
 	    width: 90%;
 	    max-width: 400px;
 	}

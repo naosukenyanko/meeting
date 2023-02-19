@@ -1,5 +1,10 @@
 const {exec} = require('child_process')
 
+/*
+Linuxで運用することを想定してます
+その他の環境は適宜処理を追加してください
+*/
+
 function getMemory(){
 	return new Promise( (resolve, reject)=>{
 		exec("free", (err, stdout)=>{

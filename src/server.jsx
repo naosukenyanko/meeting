@@ -2,6 +2,13 @@ import React from 'react'
 import api from './api'
 import size from './size'
 
+function openLog(){
+	let element = document.createElement('a');
+	element.href = "./log/server.log"
+	element.target = '_blank';
+	element.click();
+}
+
 export default class ServerStatus extends React.Component{
 	constructor(props){
 		super(props)
@@ -42,23 +49,25 @@ export default class ServerStatus extends React.Component{
 		return (
 			<div className="dialog server_status" onClick={cancel}>
 				<p>サーバー状況</p>
-				<table>
-					<thead>
-					</thead>
-					<tbody>
-						<tr>
-							<th>ストレージ</th>
-							<td>{ size(storage.used) } / {size(storage.total)}</td>
-						</tr>
-						<tr>
-							<th>メモリ</th>
-							<td>{size(memory.used)} / {size(memory.total)}</td>
-						</tr>
-					</tbody>
-				</table>
+				<div className="table-container">
+					<table>
+						<thead>
+						</thead>
+						<tbody>
+							<tr>
+								<th>ストレージ</th>
+								<td>{ size(storage.used) } / {size(storage.total)}</td>
+							</tr>
+							<tr>
+								<th>メモリ</th>
+								<td>{size(memory.used)} / {size(memory.total)}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 
 				<div>
-					<button>ログ閲覧</button>
+					<button onClick={openLog}>ログ閲覧</button>
 				</div>
 				<div>
 					<button>クリーンアップ</button>
