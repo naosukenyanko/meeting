@@ -81,29 +81,65 @@ export default class App extends React.Component {
 	}
 
 	async onChangeAlbum(file, name){
-		console.log("change album", file, name)
+		const {mode, selected} = this.state
 		const {user} = this.state;
-		const result = await api.post("changeAlbum", {
-			id: file.id,
-			album: name,
-			user: user,
-		})
+		console.log("change album", file, name, mode, selected)
+		
+		if( mode === "single" ){
+			const result = await api.post("changeAlbum", {
+				id: file.id,
+				album: name,
+				user: user,
+			})
+			
+		}else{
+			for(let id of selected){
+				const result = await api.post("changeAlbum", {
+					id: id,
+					album: name,
+					user: user,
+				})
+				this.setState({selected: []})
+			}
+		}
 		await this.load();
 	}
 
 	async onDelete(file){
+		const {mode, selected} = this.state
 		const {user} = this.state;
-		const result = await api.post("deleteFile", {id: file.id, user})
+		console.log("delete", file, mode, selected)
+		if( mode === "single" ){
+			const result = await api.post("deleteFile", {id: file.id, user})
+		}else{
+			for(let id of selected){
+				const result = await api.post("deleteFile", {
+					id: id, user})
+			}
+			this.setState({selected: []})
+		}
 		await this.load();
 	}
 
 	async onInfinite(file){
 		const {user} = this.state;
-		const result = await api.post("setExpires", {
-			id: file.id,
-			user,
-			expires: null,
-		})
+		const {mode, selected} = this.state
+		if( mode === "single"){
+			const result = await api.post("setExpires", {
+				id: file.id,
+				user,
+				expires: null,
+			})
+		}else{
+			for(let id of selected){
+				const result = await api.post("setExpires", {
+					id: id,
+					user,
+					expires: null,
+				})
+				this.setState({selected: []})
+			}
+		}
 		await this.load();
 	}
 
@@ -116,12 +152,24 @@ export default class App extends React.Component {
 	}
 	
 	async onLimit(file){
+		const {mode, selected} = this.state
 		const {user} = this.state;
-		const result = await api.post("setExpires", {
-			id: file.id,
-			user,
-			expires: getExpire(1)
-		})
+		if( mode === "single" ){
+			const result = await api.post("setExpires", {
+				id: file.id,
+				user,
+				expires: getExpire(1)
+			})
+		}else{
+			for(let id of selected){
+				const result = await api.post("setExpires", {
+					id: id,
+					user,
+					expires: getExpire(1)
+				})
+			}
+			this.setState({selected: []})
+		}
 		await this.load();		
 	}
 
@@ -168,17 +216,23 @@ export default class App extends React.Component {
 					<Extend extend={extend}
 							search={search}
 							mode={mode}
+							list={list}
 							onSwitchMode={this.onSwitchMode.bind(this)}
 							fileType={fileType}
 							onCleanUp={this.onCleanUp.bind(this)}
-					onChange={onChange}/>
+							onChangeAlbum={this.onChangeAlbum.bind(this)}
+							onDelete={this.onDelete.bind(this)}
+							onLimit={this.onLimit.bind(this)}
+							onInfinite={this.onInfinite.bind(this)}
+							onChange={onChange}/>
 				</Header>
 				<User user={user}
 					  extend={extend}
 					  onChange={onChange}/>
 				
 				<div className="center_frame">
-					<FileList list={list} listStyle={listStyle}
+					<FileList list={list}
+							  listStyle={listStyle}
 							  album={album}
 							  search={search}
 							  user={user}

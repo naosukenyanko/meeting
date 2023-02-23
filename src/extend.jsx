@@ -80,19 +80,49 @@ function GroupButtons(props){
 	if( mode !== "group" ){
 		return null
 	}
-
+	const onChangeAlbum = (evt)=>{
+		props.onChangeAlbum(null, evt.target.value)
+	}
+	const albumList = getAlbumList(props.list)
+	const onClick = (evt)=>{
+		props.onDelete();
+	}
+	const onChangeLimit = (evt)=>{
+		const {value} = evt.target
+		if( value === "one"){
+			props.onLimit()
+		}else{
+			props.onInfinite()
+		}
+	}
+	
 	return (
 		<div className="group_buttons">
-			<select >
-				<option>保存期限変更</option>
-				<option>一年</option>
-				<option>無期限</option>
+			<select value="" onChange={onChangeLimit}>
+				<option value="">保存期限変更</option>
+				<option value="one">一年</option>
+				<option value="infinite">無期限</option>
 			</select>
-			<select >
-				<option>アルバム変更</option>
-				<option>(home)</option>
+			<select value=" " onChange={onChangeAlbum}>
+				<option value=" ">アルバム変更</option>
+				<option value="">(home)</option>
+				{albumList}
 			</select>
-			<button>まとめて削除</button>
+			<button onClick={onClick}>まとめて削除</button>
 		</div>
 	)
+}
+
+function getAlbumList(list){
+	const album = new Set()
+	for(let file of list){
+		if( !file.album ) continue
+		album.add( file.album )
+	}
+	
+	return [...album.keys()].sort().map( (name, i)=>{
+		return (
+			<option key={i} value={name}>{name}</option>
+		)
+	})
 }
