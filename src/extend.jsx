@@ -50,12 +50,49 @@ export default function ExtendTools(props){
 
 			<div>
 				<FileType {...props}/>
-				<button>まとめて処理</button>
+				<ModeSwitch {...props}/>
 				<button onClick={onClick}>サーバー状況</button>
 			</div>
 
 			<ServerStatus dialog={dialog}
+						  {...props}
 						  close={close}/>
+
+			<GroupButtons {...props}/>
 		</div>
 	);
+}
+
+function ModeSwitch(props){
+	const {mode} = props;
+	//console.log("mode", mode)
+	return (
+		<button onClick={props.onSwitchMode} className={mode}>
+			まとめて処理
+		</button>
+
+	)
+}
+
+function GroupButtons(props){
+	const {mode} = props;
+
+	if( mode !== "group" ){
+		return null
+	}
+
+	return (
+		<div className="group_buttons">
+			<select >
+				<option>保存期限変更</option>
+				<option>一年</option>
+				<option>無期限</option>
+			</select>
+			<select >
+				<option>アルバム変更</option>
+				<option>(home)</option>
+			</select>
+			<button>まとめて削除</button>
+		</div>
+	)
 }

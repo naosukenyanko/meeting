@@ -66,7 +66,27 @@ module.exports = async function api(conf, req, logger){
 			return await db.register(dst, thumbnail, req)
 		},
 		getServerStatus: async()=>{
-			return await getServerStatus();
+			return await getServerStatus(db);
+		},
+		cleanup: async()=>{
+			const result = await db.cleanup()
+
+			for(let row of result.rows){
+				const { fileName, thumbnail } = row;
+
+				try{
+					if(fileName){
+						await fs.unlink(fileName)
+					}
+					if(thumbnail){
+						await fs.unlink(thumbnail)
+					}
+				}catch(e){
+					console.error(e)
+				}
+					
+			}
+
 		},
 	}
 	const func = table[command]

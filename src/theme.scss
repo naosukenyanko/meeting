@@ -333,6 +333,22 @@ table td{
 		height: 48px;
 		text-align: center;
 	    }
+
+	    div.checked {
+		position: absolute;
+		left: 0;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		opacity: 0.5;
+		background-color: #222;
+		img {
+		    background-color: #fff;
+		    margin: 4px;
+		    width: 48x;
+		    height: 48px;
+		}
+	    }
 	}
     }
 
@@ -433,13 +449,13 @@ table td{
 
 	input {
 	    margin: 4px;
-	    width: 396px;
+	    width: 376px;
 	    height: 26px;
 	    border: 1px solid #222;
 	}
 	select {
 	    margin: 4px;
-	    width: 140px;
+	    width: 120px;
 	    height: 32px;
 	    border: 1px solid #222;
 	}
@@ -449,6 +465,13 @@ table td{
 	    height: 32px;
 	    border: 1px solid #222;
 	}
+
+	button.group {
+	    background-color: #222;
+	    color: #fff;
+	}
+
+	
 	
     }
 

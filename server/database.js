@@ -107,6 +107,30 @@ module.exports = function(conf){
 			const result = await exec(query, [name, id])
 			return result.rows;
 		},
+		countDeletedFiles: async()=>{
+			const query = `SELECT SUM("fileSize") AS "size" ` 
+				  + `, COUNT(*) AS "count"`
+				  + `FROM files `
+				  + ` WHERE deleted=true `
+				  + ` OR expires < CURRENT_DATE`
+			
+			const result = await exec(query)
+			const item = result.rows[0]
+			return {
+				size: item.size ?? 0,
+				count: item.count ?? 0,
+			}
+		},
+		cleanup: async()=>{
+			const query = `delete FROM "files" `
+				  + ` WHERE "deleted"=true`
+				  + ` OR "expires" < CURRENT_DATE`
+				  + ` RETURNING "id", "filePath", "thumbnail"`
+
+			//console.log(query)
+			return await exec(query)
+		},
+		
 	}
 }
 

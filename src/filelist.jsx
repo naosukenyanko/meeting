@@ -44,6 +44,25 @@ function FileName(props){
 	);
 }
 
+function Checked(props){
+	const {data, style, selected, mode} = props
+	const {id} = data
+
+	if(style.width < 64) return null
+	if( mode !== "group" ) return null
+
+	console.log("checked", selected, id)
+	if( !selected.includes(id) ) return null
+
+	
+	return (
+		<div className="checked">
+			<img src="./images/checked.png"/>
+		</div>
+
+	);
+}
+
 function Expire(props){
 	const {data, style} = props
 	const {expires} = data
@@ -82,7 +101,7 @@ function Movie(props){
 }
 
 function File(props){
-	const {data, listStyle} = props;
+	const {data, listStyle, mode} = props;
 
 	const margin = 20;
 	const style = {}
@@ -117,8 +136,12 @@ function File(props){
 	}
 
 	const [dialog, setDialog] = useState("closed");
-	const openDialog = async()=>{
-		setDialog("opened")
+	const onClick = async()=>{
+		if( mode === "single" ){
+			setDialog("opened")
+		}else{
+			props.onSelect( data.id )
+		}
 		
 	}
 
@@ -126,13 +149,16 @@ function File(props){
 		setDialog("closed")
 	}
 	
+	
 	return (
-		<div className={className.join(" ")} style={style} onClick={openDialog}>
+		<div className={className.join(" ")} style={style}
+			 onClick={onClick}>
 			<div className="icon">
 				<img src={src} style={imgStyle}/>
 				<FileName {...props} style={style}/>
 				<Expire {...props} style={style}/>
 				<Movie {...props} style={style}/>
+				<Checked {...props} style={style}/>
 				
 			</div>
 			<FileDialog {...props} dialog={dialog} close={close}/>

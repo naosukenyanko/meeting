@@ -35,6 +35,8 @@ export default class App extends React.Component {
 			extend: storage.get("extend") ?? "off",
 			search: "",
 			fileType: "all",
+			mode: "single",
+			selected: [],
 		}
 	}
 
@@ -105,6 +107,14 @@ export default class App extends React.Component {
 		await this.load();
 	}
 
+	async onCleanUp(file){
+		const {user} = this.state;
+		const result = await api.post("cleanup", {
+			user,
+		})
+		await this.load();
+	}
+	
 	async onLimit(file){
 		const {user} = this.state;
 		const result = await api.post("setExpires", {
@@ -114,7 +124,26 @@ export default class App extends React.Component {
 		})
 		await this.load();		
 	}
-		
+
+	async onSwitchMode(){
+		const {mode} = this.state
+		this.setState({
+			mode: mode === "single" ? "group": "single",
+			selected: [],
+		})
+	}
+
+	onSelect(index){
+		const {selected} = this.state
+		const pos = selected.indexOf(index)
+		if( pos >= 0 ){
+			selected.splice(pos, 1)
+		}else{
+			selected.push( index )
+		}
+		console.log("selected", selected)
+		this.setState({selected})
+	}
 	
 	render(){
 		const onChange = (obj)=>{
@@ -123,20 +152,25 @@ export default class App extends React.Component {
 		const {list, listStyle, config, user, uploading} = this.state
 		const {album, albumList} = this.state;
 		const {extend, search, fileType} = this.state;
+		const {mode, selected} = this.state;
 		
 		return (
 			<div className="main_frame">
 				<Header user={user}
+						mode={mode}
 						config={config}
 						listStyle={listStyle}
 						list={list}
 						album={album}
-						onChange={onChange}
+						onChange={onChange}						
 						onUpload={this.upload.bind(this)}>
 
 					<Extend extend={extend}
 							search={search}
+							mode={mode}
+							onSwitchMode={this.onSwitchMode.bind(this)}
 							fileType={fileType}
+							onCleanUp={this.onCleanUp.bind(this)}
 					onChange={onChange}/>
 				</Header>
 				<User user={user}
@@ -148,11 +182,14 @@ export default class App extends React.Component {
 							  album={album}
 							  search={search}
 							  user={user}
+							  mode={mode}
+							  selected={selected}
 							  fileType={fileType}
 							  onChangeAlbum={this.onChangeAlbum.bind(this)}
 							  onDelete={this.onDelete.bind(this)}
 							  onLimit={this.onLimit.bind(this)}
 							  onInfinite={this.onInfinite.bind(this)}
+							  onSelect={this.onSelect.bind(this)}
 					/>
 				</div>
 

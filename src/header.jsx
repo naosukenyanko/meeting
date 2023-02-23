@@ -1,6 +1,7 @@
 import React, {useState} from "react"
 import AlbumDialog from './albumdialog'
 import storage from './storage'
+
 const showOpenFileDialog = () => {
     return new Promise(resolve => {
         const input = document.createElement('input');

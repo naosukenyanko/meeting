@@ -37,12 +37,13 @@ function getStorage(){
 	})
 }
 
-module.exports = async ()=>{
+module.exports = async (db)=>{
 	const memory = await getMemory()
 	const storage = await getStorage()
-	
+	const deleted = await db.countDeletedFiles()
 	return {
-		storage: storage,
+		storage,
 		memory,
+		deleted,
 	}
 }
